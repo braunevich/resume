@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Дмитро — Водій-перегонщик · Дніпро</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+:root {
+  --sky: #eaf4fb;
+  --blue: #2e86c1;
+  --blue-dark: #1a5276;
+  --blue-light: #aed6f1;
+  --accent: #e67e22;
+  --accent-light: #fef5ec;
+  --white: #ffffff;
+  --text: #2c3e50;
+  --muted: #7f8c8d;
+  --border: #d4eaf7;
+  --card: #f5faff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--sky);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ─── HERO ─── */
+.hero {
+  background: linear-gradient(160deg, #1a5276 0%, #2e86c1 60%, #7fb3d3 100%);
+  padding: 44px 20px 56px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 52px;
+  background: var(--sky);
+  border-radius: 52% 52% 0 0 / 52px 52px 0 0;
+}
+
+.photo-wrap {
+  display: inline-block;
+  margin-bottom: 16px;
+  position: relative;
+}
+.photo-circle {
+  width: 108px; height: 108px;
+  border-radius: 50%;
+  border: 4px solid rgba(255,255,255,0.55);
+  overflow: hidden;
+  background: rgba(255,255,255,0.13);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.photo-circle { border-color: rgba(255,255,255,0.7); }
+.photo-circle img { width: 100%; height: 100%; object-fit: cover; display: none; }
+.photo-placeholder {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  color: rgba(255,255,255,0.65);
+  font-size: 10px; letter-spacing: 0.5px; text-align: center;
+  pointer-events: none;
+}
+.photo-placeholder svg { width: 28px; height: 28px; }
+
+
+.hero-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px; font-weight: 900;
+  color: #fff; line-height: 1.15; margin-bottom: 7px;
+}
+.hero-title {
+  font-size: 13px; font-weight: 600;
+  color: rgba(255,255,255,0.82);
+  letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px;
+}
+.hero-badges {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 7px;
+}
+.badge {
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.28);
+  color: #fff; font-size: 12px; font-weight: 700;
+  padding: 5px 13px; border-radius: 20px;
+}
+
+/* ─── CTA ─── */
+.cta-bar {
+  background: var(--white);
+  padding: 18px 16px 16px;
+  box-shadow: 0 4px 18px rgba(46,134,193,0.11);
+}
+.cta-label {
+  text-align: center; font-size: 11px; font-weight: 800;
+  color: var(--muted); letter-spacing: 1.5px;
+  text-transform: uppercase; margin-bottom: 11px;
+}
+.cta-row {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px;
+}
+.cta-btn {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 5px;
+  padding: 13px 6px; border-radius: 13px; border: none;
+  cursor: pointer; text-decoration: none;
+  font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 12px;
+  transition: transform 0.13s, opacity 0.13s;
+  -webkit-tap-highlight-color: transparent;
+}
+.cta-btn:active { transform: scale(0.94); opacity: 0.85; }
+.cta-btn svg { width: 25px; height: 25px; }
+
+.btn-call {
+  background: linear-gradient(135deg, #1e8449, #27ae60);
+  color: white; box-shadow: 0 3px 12px rgba(39,174,96,0.3);
+}
+.btn-viber {
+  background: linear-gradient(135deg, #5b3cbf, #7360f2);
+  color: white; box-shadow: 0 3px 12px rgba(115,96,242,0.3);
+}
+.btn-tg {
+  background: linear-gradient(135deg, #1578b5, #229ED9);
+  color: white; box-shadow: 0 3px 12px rgba(34,158,217,0.3);
+}
+
+.btn-pdf {
+  width: 100%; padding: 15px;
+  background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+  color: white; border-radius: 13px; border: none; cursor: pointer;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px;
+  letter-spacing: 0.3px;
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  box-shadow: 0 4px 18px rgba(26,82,118,0.28);
+  transition: transform 0.13s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-pdf:active { transform: scale(0.97); }
+.btn-pdf svg { width: 20px; height: 20px; }
+
+/* ─── CONTENT ─── */
+.content {
+  padding: 6px 14px 36px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.stats-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin: 14px 0 12px;
+}
+.stat-card {
+  background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+  border-radius: 16px; padding: 18px 14px; text-align: center; color: white;
+}
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 34px; font-weight: 900; line-height: 1; margin-bottom: 4px;
+}
+.stat-label { font-size: 11px; font-weight: 700; opacity: 0.82; letter-spacing: 0.5px; text-transform: uppercase; }
+
+/* SECTION CARD */
+.section {
+  background: var(--white);
+  border-radius: 18px; padding: 20px 18px; margin-bottom: 12px;
+  box-shadow: 0 2px 10px rgba(46,134,193,0.07);
+}
+.section-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 15px;
+}
+.section-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--sky); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.section-icon svg { width: 19px; height: 19px; color: var(--blue); }
+.section-title { font-size: 16px; font-weight: 800; color: var(--blue-dark); }
+
+/* ABOUT */
+.about-text { font-size: 14.5px; line-height: 1.8; color: var(--text); }
+
+/* SERVICES */
+.services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.service-card {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 12px 8px; text-align: center;
+  font-size: 13px; font-weight: 700; color: var(--blue-dark);
+  line-height: 1.4;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.service-card .si { font-size: 22px; }
+
+/* SKILLS */
+.skills-list { display: flex; flex-direction: column; gap: 9px; }
+.skill-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 14px; color: var(--text); line-height: 1.55;
+}
+.skill-dot {
+  width: 8px; height: 8px;
+  background: var(--accent); border-radius: 50%;
+  flex-shrink: 0; margin-top: 5px;
+}
+
+/* EXP */
+.exp-card { border-left: 3px solid var(--blue-light); padding-left: 14px; }
+.exp-title { font-size: 15px; font-weight: 800; color: var(--blue-dark); }
+.exp-meta { font-size: 12px; color: var(--accent); font-weight: 700; margin: 3px 0 8px; }
+.exp-desc { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+
+/* NOTE */
+.note-card {
+  background: var(--accent-light); border: 1.5px solid #f5cba7;
+  border-radius: 14px; padding: 15px 16px;
+  font-size: 13.5px; color: #784212;
+  font-style: italic; line-height: 1.7; text-align: center;
+  margin-bottom: 12px;
+}
+
+footer {
+  text-align: center; padding: 14px;
+  font-size: 12px; color: var(--muted);
+}
+
+@media print {
+  #pdf-overlay, .cta-bar { display: none !important; }
+  body { background: white !important; }
+  .hero::after { display: none; }
+}
+
+/* ─── PDF OVERLAY ─── */
+#pdf-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(26,82,118,0.88);
+  z-index: 9999;
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 14px;
+  color: white; font-size: 16px; font-weight: 700;
+}
+#pdf-overlay.show { display: flex; }
+.spinner {
+  width: 44px; height: 44px;
+  border: 4px solid rgba(255,255,255,0.3);
+  border-top-color: white; border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div id="pdf-overlay"><div class="spinner"></div><span>Формується PDF…</span></div>
+
+<!-- HERO -->
+<div id="main-page">
+<div class="hero" id="hero-section">
+  <div class="photo-wrap">
+    <div class="photo-circle">
+      <img src="data:image/jpeg;base64,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" alt="Дмитро Володимирович" style="display:block;width:100%;height:100%;object-fit:cover;">
+    </div>
+  </div>
+
+  <div class="hero-name">Дмитро<br>Володимирович</div>
+  <div class="hero-title">Водій-перегонщик автомобілів</div>
+  <div class="hero-badges">
+    <span class="badge">📍 Дніпро</span>
+    <span class="badge">🚗 30+ років стажу</span>
+    <span class="badge">✅ Без аварій</span>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-bar">
+  <div class="cta-label">Зв'язатися зараз</div>
+  <div class="cta-row">
+    <a href="tel:+380677197498" class="cta-btn btn-call">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/>
+      </svg>
+      Зателефонувати
+    </a>
+    <a href="viber://chat?number=%2B380677197498" class="cta-btn btn-viber">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M11.4 0C6.7.1 2.5 2.2.6 5.8-1 9 .5 13.2 3.6 15.2c.3.2.5.5.4.9l-.4 2.6c-.1.4.3.7.6.5l2.8-1.4c.3-.1.6-.1.9 0 1.1.3 2.3.5 3.5.5 5.6 0 10.2-3.8 10.6-8.8C22 4 17.2-.1 11.4 0zm4.3 9.5l-1.4 1.4c-.2.2-.5.3-.8.2-3.5-1.2-6-3.7-7.2-7.2-.1-.3 0-.6.2-.8l1.4-1.4c.4-.4 1-.4 1.3 0l1.2 1.8c.3.4.2.9-.1 1.2l-.6.6c.7 1.5 1.9 2.7 3.4 3.4l.6-.6c.3-.3.8-.4 1.2-.1l1.8 1.2c.4.4.4 1 0 1.3z"/>
+      </svg>
+      Viber
+    </a>
+    <a href="https://t.me/+380677197498" class="cta-btn btn-tg">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.93 8.2l-2.1 9.89c-.15.66-.54.82-1.09.51l-3-2.21-1.45 1.39c-.16.16-.3.3-.62.3l.22-3.12 5.7-5.15c.25-.22-.05-.34-.38-.12L6.4 14.17l-2.96-.92c-.64-.2-.66-.64.14-.95l11.57-4.46c.53-.19.99.13.78.36z"/>
+      </svg>
+      Telegram
+    </a>
+  </div>
+
+  <button class="btn-pdf" onclick="exportPDF()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    Завантажити резюме (PDF)
+  </button>
+</div>
+
+<!-- CONTENT -->
+<div class="content" id="cv-content">
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-number">30+</div>
+      <div class="stat-label">Років стажу</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">0</div>
+      <div class="stat-label">Аварій та штрафів</div>
+    </div>
+  </div>
+
+  <!-- ПРО СЕБЕ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+      <div class="section-title">Про себе</div>
+    </div>
+    <p class="about-text">Досвідчений водій із 30+ роками безаварійного стажу. Спеціалізуюся на перегоні легкових автомобілів та мікроавтобусів по місту, району, області та всій Україні. Відповідальний, пунктуальний, без шкідливих звичок. Бережне ставлення до чужого транспорту — мій головний принцип.</p>
+  </div>
+
+  <!-- ПОСЛУГИ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </div>
+      <div class="section-title">Послуги</div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card"><span class="si">🏙️</span>По місту Дніпро</div>
+      <div class="service-card"><span class="si">🗺️</span>По Дніпропетровській області</div>
+      <div class="service-card"><span class="si">🇺🇦</span>По всій Україні</div>
+      <div class="service-card"><span class="si">🚐</span>Мікроавтобуси</div>
+      <div class="service-card"><span class="si">🏪</span>Після купівлі з салону</div>
+      <div class="service-card"><span class="si">🔧</span>Після ремонту</div>
+      <div class="service-card"><span class="si">⚡</span>Термінові виїзди</div>
+      <div class="service-card"><span class="si">🤝</span>Від приватного продавця</div>
+    </div>
+  </div>
+
+  <!-- ПЕРЕВАГИ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      </div>
+      <div class="section-title">Переваги</div>
+    </div>
+    <div class="skills-list">
+      <div class="skill-row"><span class="skill-dot"></span><span>Категорії прав <strong>B та B1</strong> — легкові авто та мікроавтобуси до 3,5 т</span></div>
+      <div class="skill-row"><span class="skill-dot"></span><span>30+ років безаварійного стажу без порушень ПДР</span></div>
+      <div class="skill-row"><span class="skill-dot"></span><span>Відмінне знання доріг Дніпра, Дніпропетровщини та всієї України</span></div>
+      <div class="skill-row"><span class="skill-dot"></span><span>Досвід з різними марками: ВАЗ, Daewoo, Volkswagen, Toyota, Hyundai, Ford, Renault</span></div>
+      <div class="skill-row"><span class="skill-dot"></span><span>Механічна та автоматична коробка передач — без проблем</span></div>
+      <div class="skill-row"><span class="skill-dot"></span><span>Без шкідливих звичок — не палить, не вживає алкоголь</span></div>
+      <div class="skill-row"><span class="skill-dot"></span><span>Пунктуальність та відповідальність — завжди вчасно</span></div>
+      <div class="skill-row"><span class="skill-dot"></span><span>Стресостійкість у складних дорожніх ситуаціях</span></div>
+      <div class="skill-row"><span class="skill-dot"></span><span>Базові знання авторемонту — впораюся з дрібними несправностями в дорозі</span></div>
+      <div class="skill-row"><span class="skill-dot"></span><span>Готовий до далеких рейсів та виїздів у будь-який час</span></div>
+      <div class="skill-row"><span class="skill-dot"></span><span>Бережне ставлення — здаю авто в тому самому стані, що й отримую</span></div>
+    </div>
+  </div>
+
+  <!-- ДОСВІД -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+      </div>
+      <div class="section-title">Досвід</div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-title">Водій-перегонщик (приватна діяльність)</div>
+      <div class="exp-meta">1993 — дотепер · Дніпро та Україна</div>
+      <div class="exp-desc">Перегін автомобілів для приватних осіб та компаній. Безаварійне водіння протягом усього стажу. Своєчасне та акуратне виконання замовлень будь-якої складності та відстані.</div>
+    </div>
+  </div>
+
+  <!-- КОНТАКТИ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+      </div>
+      <div class="section-title">Контакти</div>
+    </div>
+    <div class="skills-list">
+      <div class="skill-row"><span class="skill-dot"></span><span>📞 Телефон: <strong>+38 067 719 74 98</strong></span></div>
+      <div class="skill-row"><span class="skill-dot"></span><span>💜 Viber: <strong>+38 067 719 74 98</strong></span></div>
+      <div class="skill-row"><span class="skill-dot"></span><span>✈️ Telegram: <strong>+38 067 719 74 98</strong></span></div>
+      <div class="skill-row"><span class="skill-dot"></span><span>📍 Місто: Дніпро, Україна</span></div>
+    </div>
+  </div>
+
+  <div class="note-card">
+    💬 Ціна обговорюється індивідуально залежно від відстані та складності маршруту
+  </div>
+
+</div>
+
+<footer>© Дмитро Володимирович · Водій-перегонщик · Дніпро</footer>
+</div><!-- /main-page -->
+
+<script>
+function exportPDF() {
+  const overlay = document.getElementById('pdf-overlay');
+  overlay.classList.add('show');
+
+  const element = document.getElementById('main-page');
+
+  const opt = {
+    margin: 0,
+    filename: 'Резюме_Дмитро_Водій.pdf',
+    image: { type: 'jpeg', quality: 0.95 },
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      logging: false,
+      scrollX: 0,
+      scrollY: 0
+    },
+    jsPDF: {
+      unit: 'mm',
+      format: 'a4',
+      orientation: 'portrait'
+    },
+    pagebreak: { mode: 'avoid-all' }
+  };
+
+  html2pdf().set(opt).from(element).save()
+    .then(() => { overlay.classList.remove('show'); })
+    .catch(() => {
+      overlay.classList.remove('show');
+      alert('Помилка. Спробуйте ще раз.');
+    });
+}
+</script>
+</body>
+</html>
